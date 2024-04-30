@@ -1,3 +1,5 @@
+import { FeaturedProject } from "../Types";
+
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
 const figmaId = '999587062272131138';
@@ -10,7 +12,17 @@ export async function GET(request: Request) {
     },
   }).then((response) => response.json());
 
-  const projects = response?.meta[0];
+  const projects: FeaturedProject[] = response?.meta.map((project: any) => {
+    const latest = Object.values(project.versions).reduce((a: any, b: any) => (new Date(a.created_at).getTime() > new Date(b.created_at).getTime() ? a : b)) as any;
+    
+    const title = latest.name;
+    const description = latest.description;
+    const thumbnail = project.thumbnail_url;
+    const source = `https://www.figma.com/community/file/${project.id}`;
+    const pubDate = project.created_at;
+
+    return { title, source, description, pubDate, thumbnail, platform: 'figma' };
+  });
   
   return new Response(JSON.stringify(projects));
 }
