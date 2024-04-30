@@ -8,7 +8,8 @@ export interface FeaturedProject {
   source: string;
   demo?: string;
   language?: string;
-  pubDate?: string;
+  createdAt?: string;
+  updatedAt?: string;
   interactions?: {
     stars?: number;
     forks?: number;

@@ -19,12 +19,13 @@ export async function GET(request: Request) {
     const description = latest.description;
     const thumbnail = project.thumbnail_url;
     const source = `https://www.figma.com/community/file/${project.id}`;
-    const pubDate = project.created_at;
+    const createdAt = project.created_at;
+    const updatedAt = latest.created_at;
     const interactions = {
       likes: project.like_count
     }
 
-    return { title, source, description, pubDate, thumbnail, interactions, platform: 'figma' };
+    return { title, source, description, createdAt, updatedAt, thumbnail, interactions, platform: 'figma' };
   });
   
   return new Response(JSON.stringify(projects));

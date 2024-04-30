@@ -15,11 +15,11 @@ export async function GET(request: Request) {
     const title = item.getElementsByTagName("title")[0].textContent || "";
     const description = item.getElementsByTagName("media:description")[0].textContent || "";
     const source = item.getElementsByTagName("guid")[0].textContent || "";
-    const pubDate = item.getElementsByTagName("pubDate")[0].textContent || "";
+    const createdAt = item.getElementsByTagName("pubDate")[0].textContent || "";
     const thumbnails = item.getElementsByTagName("media:thumbnail");
     const thumbnail = thumbnails[thumbnails.length - 1].getAttribute("url") || "";
     
-    return { title, source, description, pubDate, thumbnail, platform: 'deviantart'};
+    return { title, source, description, createdAt, thumbnail, platform: 'deviantart'};
   });
 
   return new Response(JSON.stringify(projects));
