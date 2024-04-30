@@ -13,7 +13,7 @@ export async function GET(request: Request) {
   const items = xmlDoc.getElementsByTagName("item");
   const projects: FeaturedProject[] = Array.from(items).map((item) => {
     const title = item.getElementsByTagName("title")[0].textContent || "";
-    const description = item.getElementsByTagName("media:description")[0].textContent || "";
+    const description = item.getElementsByTagName("description")[0].textContent || "";
     const source = item.getElementsByTagName("guid")[0].textContent || "";
     const pubDate = item.getElementsByTagName("pubDate")[0].textContent || "";
     const thumbnail = item.getElementsByTagName("media:thumbnail")[0].getAttribute("url") || "";

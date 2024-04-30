@@ -9,5 +9,11 @@ export interface FeaturedProject {
   demo?: string;
   language?: string;
   pubDate?: string;
+  interactions?: {
+    stars?: number;
+    forks?: number;
+    comments?: number;
+    likes?: number;
+  }
   platform: Platform;
 }
