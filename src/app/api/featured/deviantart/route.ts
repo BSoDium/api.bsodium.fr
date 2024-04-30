@@ -21,5 +21,5 @@ export async function GET(request: Request) {
     return { title, source, description, pubDate, thumbnail, platform: 'deviantart'};
   });
 
-  return new Response(JSON.stringify(projects[0]));
+  return new Response(JSON.stringify(projects));
 }
