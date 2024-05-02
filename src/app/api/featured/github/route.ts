@@ -13,6 +13,8 @@ export async function GET(request: Request) {
     },
   }).then((response) => response.json());
 
+  if (!Array.isArray(response)) return new Response("[]" as any);
+
   const projects: FeaturedProject[] = response?.filter((repository: Repository) => repository.topics.includes('featured')).map((repository: Repository) => ({
     title: repository.name,
     description: repository.description,
