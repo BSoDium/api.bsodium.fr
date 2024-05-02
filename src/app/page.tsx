@@ -4,7 +4,7 @@ export default function Home() {
   return (
     <main>
       <section style={{display: 'flex', flexDirection: 'row', width: '100vw', height: '100vh', padding: '5rem', gap: '2rem', alignItems: 'center', justifyContent: 'center'}}>
-        <PiHeartbeatLight size="7rem"/>
+        <PiHeartbeatLight size="7rem" style={{animation: 'heartbeat 2s infinite'}}/>
         <div style={{display: 'flex', flexDirection: 'column', gap: '.5rem', maxWidth: '30rem'}}>
           <span className="text-4xl">
             This instance is online.
