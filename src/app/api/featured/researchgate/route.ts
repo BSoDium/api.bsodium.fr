@@ -36,9 +36,14 @@ export async function GET(request: Request) {
 
     const createdAt = new Date(child.getElementsByClassName("nova-legacy-v-publication-item__meta-data-item")[0].textContent || "").toISOString();
     
-    return { title, description, source, createdAt, platform: 'researchgate' };
+    const type = child.getElementsByClassName("nova-legacy-e-badge")[0].textContent || "";
+    
+    return { title, description, source, createdAt, type, platform: 'researchgate' } as FeaturedProject & { type?: string };
   }
-  );
+  ).filter((item) => item.type !== 'Presentation').map((item) => {
+    delete item.type;
+    return item;
+  });
   
   return new Response(JSON.stringify(items));
 }
