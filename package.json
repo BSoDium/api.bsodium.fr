@@ -7,7 +7,8 @@
     "build": "next build",
     "codegen": "dotenv -c development -- kysely-codegen",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "freeze": "tsx ./src/app/api/featured/**/freeze.ts"
   },
   "dependencies": {
     "@nextui-org/button": "2.0.26",
@@ -24,12 +25,10 @@
     "@react-aria/ssr": "^3.8.0",
     "@react-aria/visually-hidden": "^3.8.6",
     "@types/jsdom": "^21.1.6",
-    "@vercel/postgres-kysely": "^0.8.0",
     "clsx": "^2.0.0",
     "framer-motion": "^10.16.4",
     "intl-messageformat": "^10.5.0",
     "jsdom": "^24.0.0",
-    "kysely": "^0.27.3",
     "next": "14.0.2",
     "next-themes": "^0.3.0",
     "pg": "^8.11.5",
@@ -46,10 +45,10 @@
     "dotenv-cli": "^7.4.1",
     "eslint": "^8",
     "eslint-config-next": "14.1.4",
-    "kysely-codegen": "^0.14.2",
     "postcss": "^8.4.38",
     "sass": "^1.74.1",
     "tailwindcss": "^3.4.3",
+    "tsx": "^4.9.0",
     "typescript": "^5"
   }
 }
