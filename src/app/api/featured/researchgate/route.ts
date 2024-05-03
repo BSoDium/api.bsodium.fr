@@ -3,8 +3,10 @@ import { FeaturedProject } from '../Types';
 
 export const dynamic = 'force-dynamic'; // static by default, unless reading the request
 
+const researchgateId = 'Elliot-Negrel-Jerzy';
+
 export async function GET(request: Request) {
-  const text = await fetch("https://www.researchgate.net/profile/Elliot-Negrel-Jerzy", {
+  const text = await fetch(`https://www.researchgate.net/profile/${researchgateId}`, {
     "headers": {
       "sec-ch-ua": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36",
       "sec-ch-ua-mobile": "?0",
@@ -22,7 +24,10 @@ export async function GET(request: Request) {
 
   const parent = xmlDoc.getElementsByClassName("nova-legacy-o-stack nova-legacy-o-stack--gutter-xxl nova-legacy-o-stack--spacing-xl nova-legacy-o-stack--show-divider");
 
-  if (parent.length === 0) return new Response("[]" as any);
+  if (parent.length === 0) return new Response("[]" as any, {
+    status: 429,
+    statusText: 'Rate limit exceeded',
+  });
   
   const children = parent[0].getElementsByClassName("nova-legacy-o-stack__item");
 
