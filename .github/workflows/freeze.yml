@@ -1,0 +1,35 @@
+name: Freeze and Commit
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs every day at midnight
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Run freeze
+      run: yarn freeze
+
+    - name: Check for changes
+      id: git-check
+      run: echo ::set-output name=status::$(if git diff-index --quiet HEAD --; then echo "no changes"; else echo "changes"; fi)
+
+    - name: Commit and push if changes
+      if: steps.git-check.outputs.status == 'changes'
+      run: |
+        git config --global user.name 'GitHub Actions'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git commit -am 'chore: auto-update frozen API responses'
+        git push
