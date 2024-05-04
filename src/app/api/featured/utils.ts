@@ -20,3 +20,17 @@ export const freeze = (
     console.error(`Error freezing ${context} to ${path}: ${error}`);
   }
 };
+
+export class FrozenResponse extends Response {
+  constructor(json: FeaturedProjects) {
+    if (json.length === 0) {
+      console.warn("Frozen response was empty");
+      super("[]" as any, {
+        status: 404,
+        statusText: "Not found",
+      });
+    } else {
+      super(JSON.stringify(json));
+    }
+  }
+}
