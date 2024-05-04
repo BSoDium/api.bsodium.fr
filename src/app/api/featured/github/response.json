@@ -1,0 +1,86 @@
+[
+  {
+    "title": "amaze.me",
+    "description": "A two-dimensional maze generator and visualizer in 3D space.",
+    "source": "https://github.com/BSoDium/amaze.me",
+    "demo": "https://amaze.me.bsodium.fr/",
+    "language": "TypeScript",
+    "platform": "github",
+    "createdAt": "2023-01-09T06:48:34Z",
+    "updatedAt": "2023-05-17T19:08:44Z",
+    "interactions": {
+      "stars": 0,
+      "forks": 0
+    }
+  },
+  {
+    "title": "lidar",
+    "description": "A VR game about escaping a dark maze by scanning your surroundings.",
+    "source": "https://github.com/BSoDium/lidar",
+    "demo": "https://lidar.bsodium.fr",
+    "language": "JavaScript",
+    "platform": "github",
+    "createdAt": "2023-01-25T00:45:01Z",
+    "updatedAt": "2024-03-02T01:47:52Z",
+    "interactions": {
+      "stars": 2,
+      "forks": 0
+    }
+  },
+  {
+    "title": "light-engine",
+    "description": "An inverse rasterizer engine demo, written in java using swing.",
+    "source": "https://github.com/BSoDium/light-engine",
+    "demo": "",
+    "language": "Java",
+    "platform": "github",
+    "createdAt": "2022-04-12T08:56:34Z",
+    "updatedAt": "2023-05-17T19:06:30Z",
+    "interactions": {
+      "stars": 0,
+      "forks": 0
+    }
+  },
+  {
+    "title": "randomite",
+    "description": "A basic gaussian random number generator with a modern chart visualiser.",
+    "source": "https://github.com/BSoDium/randomite",
+    "demo": "https://randomite.bsodium.fr/",
+    "language": "TypeScript",
+    "platform": "github",
+    "createdAt": "2022-12-16T13:17:50Z",
+    "updatedAt": "2023-05-17T19:09:03Z",
+    "interactions": {
+      "stars": 0,
+      "forks": 0
+    }
+  },
+  {
+    "title": "Slashboard-desktop",
+    "description": "A simple and convenient dashboard to monitor the activity and performance of your home servers.",
+    "source": "https://github.com/BSoDium/Slashboard-desktop",
+    "demo": "",
+    "language": "TypeScript",
+    "platform": "github",
+    "createdAt": "2021-09-03T16:27:46Z",
+    "updatedAt": "2024-02-13T04:19:41Z",
+    "interactions": {
+      "stars": 259,
+      "forks": 14
+    }
+  },
+  {
+    "title": "The-PyOS-Project",
+    "description": "An orbital mechanics simulator, entirely coded in Python, which uses the panda3D engine. The acronym PyOS stands for \"Python orbit simulator\".",
+    "source": "https://github.com/BSoDium/The-PyOS-Project",
+    "demo": "",
+    "language": "Python",
+    "platform": "github",
+    "createdAt": "2019-03-04T13:56:43Z",
+    "updatedAt": "2024-04-24T17:11:18Z",
+    "interactions": {
+      "stars": 66,
+      "forks": 10
+    }
+  }
+]

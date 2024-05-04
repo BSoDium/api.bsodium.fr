@@ -8,7 +8,7 @@
     "codegen": "dotenv -c development -- kysely-codegen",
     "start": "next start",
     "lint": "next lint",
-    "freeze": "tsx ./src/app/api/featured/**/freeze.ts"
+    "freeze": "for FILE in $(find ./src/app/api/featured -name \"freeze.ts\" -type f); do tsx $FILE; done"
   },
   "dependencies": {
     "@nextui-org/button": "2.0.26",

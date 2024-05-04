@@ -1,45 +1,14 @@
-import { FeaturedProject } from "../Types";
-import { Repository } from "./Types";
+import frozenResponse from "./response.json";
 
 export const dynamic = "force-dynamic"; // static by default, unless reading the request
 
-const githubId = "bsodium";
-
 export async function GET(request: Request) {
-  const response = await fetch(
-    `https://api.github.com/users/${githubId}/repos`,
-    {
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-      },
-    }
-  ).then((response) => response.json());
-
-  if (!Array.isArray(response)) {
-    console.warn("Unexpected response from GitHub: ", response);
+  if (frozenResponse.length === 0) {
+    console.warn("Frozen response is empty");
     return new Response("[]" as any, {
-      status: 429,
-      statusText: "Rate limit exceeded",
+      status: 404,
+      statusText: "Not found",
     });
   }
-
-  const projects: FeaturedProject[] = response
-    ?.filter((repository: Repository) => repository.topics.includes("featured"))
-    .map((repository: Repository) => ({
-      title: repository.name,
-      description: repository.description,
-      source: repository.html_url,
-      demo: repository.homepage,
-      language: repository.language,
-      platform: "github",
-      createdAt: repository.created_at,
-      updatedAt: repository.updated_at,
-      interactions: {
-        stars: repository.stargazers_count,
-        forks: repository.forks,
-      },
-    }));
-
-  return new Response(JSON.stringify(projects));
+  return new Response(JSON.stringify(frozenResponse));
 }
