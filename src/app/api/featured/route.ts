@@ -6,10 +6,10 @@ import { GET as researchgate } from "./researchgate/route";
 export const dynamic = "force-dynamic";
 
 export async function GET() {
-  const githubResponse = await github(request);
-  const researchgateResponse = await researchgate(request);
-  const deviantartResponse = await deviantart(request);
-  const figmaResponse = await figma(request);
+  const githubResponse = await github();
+  const researchgateResponse = await researchgate();
+  const deviantartResponse = await deviantart();
+  const figmaResponse = await figma();
 
   return new Response(
     JSON.stringify([
