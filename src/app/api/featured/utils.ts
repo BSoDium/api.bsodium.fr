@@ -21,7 +21,14 @@ export const freeze = (
   }
 };
 
+/**
+ * A wrapper around the Response class that unfreezes the JSON object if it is not empty.
+ */
 export class FrozenResponse extends Response {
+  /**
+   * Creates a new instance of FrozenResponse.
+   * @param json The JSON object to unfreeze.
+   */
   constructor(json: FeaturedProjects) {
     if (json.length === 0) {
       console.warn("Frozen response was empty");
