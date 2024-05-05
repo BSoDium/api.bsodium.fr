@@ -21,6 +21,12 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Reset head to main
+        run: |
+          git fetch
+          git checkout main
+          git reset --hard origin/main
+
       - name: Run freeze
         run: yarn freeze
 
@@ -40,6 +46,5 @@ jobs:
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git pull
           git commit -am 'chore: auto-update frozen API responses'
           git push
