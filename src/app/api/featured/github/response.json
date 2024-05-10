@@ -28,7 +28,7 @@
     }
   },
   {
-    "title": "light-engine",
+    "title": "light engine",
     "description": "An inverse rasterizer engine demo, written in java using swing.",
     "source": "https://github.com/BSoDium/light-engine",
     "demo": "",
@@ -56,7 +56,7 @@
     }
   },
   {
-    "title": "Slashboard-desktop",
+    "title": "Slashboard desktop",
     "description": "A simple and convenient dashboard to monitor the activity and performance of your home servers.",
     "source": "https://github.com/BSoDium/Slashboard-desktop",
     "demo": "",
@@ -70,16 +70,16 @@
     }
   },
   {
-    "title": "The-PyOS-Project",
+    "title": "The PyOS Project",
     "description": "An orbital mechanics simulator, entirely coded in Python, which uses the panda3D engine. The acronym PyOS stands for \"Python orbit simulator\".",
     "source": "https://github.com/BSoDium/The-PyOS-Project",
     "demo": "",
     "language": "Python",
     "platform": "github",
     "createdAt": "2019-03-04T13:56:43Z",
-    "updatedAt": "2024-04-24T17:11:18Z",
+    "updatedAt": "2024-05-04T21:08:18Z",
     "interactions": {
-      "stars": 66,
+      "stars": 67,
       "forks": 10
     }
   }

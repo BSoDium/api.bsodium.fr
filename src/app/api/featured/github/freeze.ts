@@ -24,7 +24,7 @@ const loader: Loader = async () => {
   return response
     ?.filter((repository: Repository) => repository.topics.includes("featured"))
     .map((repository: Repository) => ({
-      title: repository.name,
+      title: repository.name.replace(/-/g, " "),
       description: repository.description,
       source: repository.html_url,
       demo: repository.homepage,
