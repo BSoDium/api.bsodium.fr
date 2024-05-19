@@ -17,7 +17,7 @@ export const freeze = (
     fs.writeFileSync(path, jsonString); // Write the JSON string to the file
     if (context) console.log(`Frozen ${context} to ${path}`);
   } catch (error) {
-    console.error(`Error freezing ${context} to ${path}: ${error}`);
+    console.error(error);
   }
 };
 
