@@ -30,21 +30,4 @@ jobs:
       - name: Run freeze
         run: yarn freeze
 
-      - name: Check for changes
-        id: git-check
-        run: |
-          if git diff-index --quiet HEAD --; then
-            echo "no changes"
-            echo "status=no-changes" >> $GITHUB_ENV
-          else
-            echo "changes"
-            echo "status=changes" >> $GITHUB_ENV
-          fi
-
-      - name: Commit and push if changes
-        if: steps.git-check.outputs.status == 'changes'
-        run: |
-          git config --global user.name 'GitHub Actions'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git commit -am 'chore: auto-update frozen API responses'
-          git push
+      - uses: stefanzweifel/git-auto-commit-action@v5
