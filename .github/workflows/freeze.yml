@@ -28,11 +28,7 @@ jobs:
           git reset --hard origin/main
 
       - name: Run freeze
-        run: |
-          yarn freeze | tee freeze.log
-          if grep -q "Unexpected" freeze.log; then
-            echo "::warning title=Unexpected response encountered::One or more API responses did not match the expected format. This may be due to a change in the API or a rate limit being reached."
-          fi
+        run: yarn freeze
 
       - name: Check for changes
         id: git-check
