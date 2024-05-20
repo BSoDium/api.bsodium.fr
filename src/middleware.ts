@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 
 const allowedOrigins = ["https://www.bsodium.fr", "https://bsodium.fr"];
+const isDeploymentOrigin = (origin: string) =>
+  origin.startsWith("https://bsodium") && origin.endsWith(".vercel.app");
 
 const corsOptions = {
   "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
@@ -12,7 +14,9 @@ export function middleware(request: NextRequest) {
 
   // Check the origin from the request
   const origin = request.headers.get("origin") ?? "";
-  const isAllowedOrigin = isDev ? true : allowedOrigins.includes(origin);
+  const isAllowedOrigin = isDev
+    ? true
+    : allowedOrigins.includes(origin) || isDeploymentOrigin(origin);
 
   // Handle preflighted requests
   const isPreflight = request.method === "OPTIONS";
