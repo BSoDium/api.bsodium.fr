@@ -8,7 +8,7 @@
     "codegen": "dotenv -c development -- kysely-codegen",
     "start": "next start",
     "lint": "next lint",
-    "freeze": "tsx ./freeze.ts"
+    "freeze": "tsx scripts/freeze.ts"
   },
   "dependencies": {
     "@nextui-org/button": "2.0.26",
