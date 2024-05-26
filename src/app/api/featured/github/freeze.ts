@@ -1,9 +1,10 @@
+import details from "app/assets/details.json";
 import path from "path";
 import { Loader } from "../Types";
 import { freeze } from "../utils";
 import { Repository } from "./Types";
 
-const githubId = "bsodium";
+const githubId = details.github.id;
 
 const loader: Loader = async () => {
   const response = await fetch(

@@ -1,9 +1,10 @@
+import details from "app/assets/details.json";
 import { JSDOM } from "jsdom";
 import path from "path";
 import { FeaturedProject, Loader } from "../Types";
 import { freeze } from "../utils";
 
-const deviantartId = "BSoDium";
+const deviantartId = details.deviantart.id;
 
 const loader: Loader = async () => {
   const apiText = await fetch(
@@ -39,21 +40,28 @@ const loader: Loader = async () => {
     };
   });
 
-  const galleryRows = galleryXmlDoc.querySelectorAll('div[data-testid="content_row"]');
-  const galleryProjects = Array.from(galleryRows || []).map((row) => Array.from(row.children)).flat().map((item) => {
-    const title = item.getElementsByTagName('h2')[0].textContent || "";
-    const likes = item.getElementsByTagName('button')[0].textContent || "";
+  const galleryRows = galleryXmlDoc.querySelectorAll(
+    'div[data-testid="content_row"]'
+  );
+  const galleryProjects = Array.from(galleryRows || [])
+    .map((row) => Array.from(row.children))
+    .flat()
+    .map((item) => {
+      const title = item.getElementsByTagName("h2")[0].textContent || "";
+      const likes = item.getElementsByTagName("button")[0].textContent || "";
 
-    return {
-      title,
-      interactions: {
-        likes: parseInt(likes),
-      },
-    }
-  });
+      return {
+        title,
+        interactions: {
+          likes: parseInt(likes),
+        },
+      };
+    });
 
   projects.forEach((project) => {
-    const galleryProject = galleryProjects.find((galleryProject) => galleryProject.title === project.title);
+    const galleryProject = galleryProjects.find(
+      (galleryProject) => galleryProject.title === project.title
+    );
     if (galleryProject) {
       project.interactions = galleryProject.interactions;
     }

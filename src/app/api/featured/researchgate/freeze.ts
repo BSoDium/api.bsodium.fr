@@ -1,9 +1,10 @@
+import details from "app/assets/details.json";
 import { JSDOM } from "jsdom";
 import path from "path";
 import { FeaturedProject, Loader } from "../Types";
 import { freeze } from "../utils";
 
-const researchgateId = "Elliot-Negrel-Jerzy";
+const researchgateId = details.researchgate.id;
 
 const loader: Loader = async () => {
   const text = await fetch(

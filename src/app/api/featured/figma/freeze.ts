@@ -1,8 +1,9 @@
+import details from "app/assets/details.json";
 import path from "path";
 import { FeaturedProject, Loader } from "../Types";
 import { freeze } from "../utils";
 
-const figmaId = "999587062272131138";
+const figmaId = details.figma.id;
 
 const loader: Loader = async () => {
   const response = await fetch(
