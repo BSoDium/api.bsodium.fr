@@ -1,4 +1,4 @@
-import details from "app/assets/details.json";
+import details from "@/app/assets/details.json";
 import path from "path";
 import { Loader } from "../Types";
 import { freeze } from "../utils";

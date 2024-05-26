@@ -1,4 +1,4 @@
-import details from "app/assets/details.json";
+import details from "@/app/assets/details.json";
 import { JSDOM } from "jsdom";
 import path from "path";
 import { FeaturedProject, Loader } from "../Types";
