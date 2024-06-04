@@ -70,6 +70,20 @@
     }
   },
   {
+    "title": "svg gradients",
+    "description": "A collection of methods for rendering svg grainy/noisy gradients",
+    "source": "https://github.com/BSoDium/svg-gradients",
+    "demo": "https://svg-gradients.vercel.app/",
+    "language": "TypeScript",
+    "platform": "github",
+    "createdAt": "2024-06-03T23:16:35Z",
+    "updatedAt": "2024-06-04T12:03:14Z",
+    "interactions": {
+      "stars": 0,
+      "forks": 0
+    }
+  },
+  {
     "title": "The PyOS Project",
     "description": "An orbital mechanics simulator, entirely coded in Python, which uses the panda3D engine. The acronym PyOS stands for \"Python orbit simulator\".",
     "source": "https://github.com/BSoDium/The-PyOS-Project",
