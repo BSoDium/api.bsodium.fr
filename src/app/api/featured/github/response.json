@@ -14,6 +14,20 @@
     }
   },
   {
+    "title": "Avatar",
+    "description": "A modern SVG avatar generator for the web",
+    "source": "https://github.com/BSoDium/Avatar",
+    "demo": "https://avatar.bsodium.fr",
+    "language": "TypeScript",
+    "platform": "github",
+    "createdAt": "2024-06-12T17:35:52Z",
+    "updatedAt": "2024-06-14T05:27:15Z",
+    "interactions": {
+      "stars": 0,
+      "forks": 0
+    }
+  },
+  {
     "title": "lidar",
     "description": "A VR game about escaping a dark maze by scanning your surroundings.",
     "source": "https://github.com/BSoDium/lidar",
