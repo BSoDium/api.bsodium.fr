@@ -14,14 +14,14 @@
     }
   },
   {
-    "title": "Avatar",
+    "title": "avatar",
     "description": "A modern SVG avatar generator for the web",
-    "source": "https://github.com/BSoDium/Avatar",
+    "source": "https://github.com/BSoDium/avatar",
     "demo": "https://avatar.bsodium.fr",
     "language": "TypeScript",
     "platform": "github",
     "createdAt": "2024-06-12T17:35:52Z",
-    "updatedAt": "2024-06-14T07:13:19Z",
+    "updatedAt": "2024-06-16T16:59:17Z",
     "interactions": {
       "stars": 0,
       "forks": 0
