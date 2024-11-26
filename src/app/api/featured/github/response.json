@@ -7,9 +7,9 @@
     "language": "TypeScript",
     "platform": "github",
     "createdAt": "2023-01-09T06:48:34Z",
-    "updatedAt": "2024-06-22T17:28:06Z",
+    "updatedAt": "2024-10-22T13:37:18Z",
     "interactions": {
-      "stars": 0,
+      "stars": 1,
       "forks": 0
     }
   },
@@ -35,7 +35,7 @@
     "language": "JavaScript",
     "platform": "github",
     "createdAt": "2023-01-25T00:45:01Z",
-    "updatedAt": "2024-07-08T04:58:18Z",
+    "updatedAt": "2024-10-29T10:16:55Z",
     "interactions": {
       "stars": 3,
       "forks": 0
@@ -77,10 +77,10 @@
     "language": "TypeScript",
     "platform": "github",
     "createdAt": "2021-09-03T16:27:46Z",
-    "updatedAt": "2024-08-03T18:57:32Z",
+    "updatedAt": "2024-11-17T20:41:45Z",
     "interactions": {
-      "stars": 259,
-      "forks": 14
+      "stars": 262,
+      "forks": 13
     }
   },
   {
@@ -91,24 +91,10 @@
     "language": "TypeScript",
     "platform": "github",
     "createdAt": "2024-06-03T23:16:35Z",
-    "updatedAt": "2024-06-07T12:59:03Z",
+    "updatedAt": "2024-10-01T09:29:29Z",
     "interactions": {
-      "stars": 1,
+      "stars": 3,
       "forks": 0
-    }
-  },
-  {
-    "title": "The PyOS Project",
-    "description": "An orbital mechanics simulator, entirely coded in Python, which uses the panda3D engine. The acronym PyOS stands for \"Python orbit simulator\".",
-    "source": "https://github.com/BSoDium/The-PyOS-Project",
-    "demo": "",
-    "language": "Python",
-    "platform": "github",
-    "createdAt": "2019-03-04T13:56:43Z",
-    "updatedAt": "2024-06-26T14:10:23Z",
-    "interactions": {
-      "stars": 70,
-      "forks": 11
     }
   }
 ]
