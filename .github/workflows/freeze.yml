@@ -1,33 +1,38 @@
-name: Update Frozen API Responses
+name: Freeze
+env:
+  APP_ID: ${{ vars.BSODIUM_APP_ID }}
+  APP_PRIVATE_KEY: ${{ secrets.BSODIUM_APP_PRIVATE_KEY }}
 
 on:
   schedule:
     - cron: "0 0 * * *" # Runs every day at midnight
-  workflow_dispatch: # Allows manual triggering
+  workflow_dispatch:
 
 jobs:
-  build:
+  API:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/create-github-app-token@v1
+        id: app-token
         with:
-          node-version: "20"
-          cache: "yarn"
+          app-id: ${{ env.APP_ID }}
+          private-key: ${{ env.APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          ref: ${{ github.head_ref }}
+
+      - name: Enable Corepack
+        run: corepack enable
 
       - name: Install dependencies
-        run: yarn install
+        run: yarn
 
-      - name: Reset head to main
-        run: |
-          git fetch
-          git checkout main
-          git reset --hard origin/main
-
-      - name: Run freeze
+      - name: Run freeze script
         run: yarn freeze
 
       - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: freeze api responses"
+          commit_user_email: contact+github@bsodium.fr
