@@ -82,19 +82,5 @@
       "stars": 262,
       "forks": 13
     }
-  },
-  {
-    "title": "Svg gradients",
-    "description": "A collection of methods for rendering svg grainy/noisy gradients",
-    "source": "https://github.com/BSoDium/Svg-gradients",
-    "demo": "https://svg-gradients.vercel.app/",
-    "language": "TypeScript",
-    "platform": "github",
-    "createdAt": "2024-06-03T23:16:35Z",
-    "updatedAt": "2024-10-01T09:29:29Z",
-    "interactions": {
-      "stars": 3,
-      "forks": 0
-    }
   }
 ]
