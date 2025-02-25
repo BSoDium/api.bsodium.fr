@@ -28,6 +28,34 @@
     }
   },
   {
+    "title": "bsodium.fr",
+    "description": "A highly over-engineered eportfolio built with React, React Spring and MUI Joy",
+    "source": "https://github.com/BSoDium/bsodium.fr",
+    "demo": "https://www.bsodium.fr/",
+    "language": "TypeScript",
+    "platform": "github",
+    "createdAt": "2022-09-13T23:33:37Z",
+    "updatedAt": "2025-02-24T23:59:23Z",
+    "interactions": {
+      "stars": 12,
+      "forks": 1
+    }
+  },
+  {
+    "title": "esp string lights",
+    "description": "MQTT-enabled controller for string lights, designed for ESP32",
+    "source": "https://github.com/BSoDium/esp-string-lights",
+    "demo": "",
+    "language": "C++",
+    "platform": "github",
+    "createdAt": "2025-02-19T01:23:10Z",
+    "updatedAt": "2025-02-24T23:59:05Z",
+    "interactions": {
+      "stars": 1,
+      "forks": 0
+    }
+  },
+  {
     "title": "lidar",
     "description": "A VR game about escaping a dark maze by scanning your surroundings.",
     "source": "https://github.com/BSoDium/lidar",
@@ -81,6 +109,20 @@
     "interactions": {
       "stars": 264,
       "forks": 13
+    }
+  },
+  {
+    "title": "spectrum visualizer demo",
+    "description": "A simple demo of a waveform generator for microphone recording UIs",
+    "source": "https://github.com/BSoDium/spectrum-visualizer-demo",
+    "demo": "https://spectrum-visualizer-demo.vercel.app/",
+    "language": "TypeScript",
+    "platform": "github",
+    "createdAt": "2024-10-12T00:58:24Z",
+    "updatedAt": "2025-02-24T23:59:15Z",
+    "interactions": {
+      "stars": 42,
+      "forks": 2
     }
   }
 ]
