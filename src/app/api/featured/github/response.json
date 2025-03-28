@@ -115,11 +115,11 @@
     "title": "spectrum visualizer demo",
     "description": "A simple demo of a waveform generator for microphone recording UIs",
     "source": "https://github.com/BSoDium/spectrum-visualizer-demo",
-    "demo": "https://spectrum-visualizer-demo.vercel.app/",
+    "demo": "https://spectrum-visualizer.bsodium.fr/",
     "language": "TypeScript",
     "platform": "github",
     "createdAt": "2024-10-12T00:58:24Z",
-    "updatedAt": "2025-03-18T06:55:10Z",
+    "updatedAt": "2025-03-27T12:26:25Z",
     "interactions": {
       "stars": 43,
       "forks": 2
