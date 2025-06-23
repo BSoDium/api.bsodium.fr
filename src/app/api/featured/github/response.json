@@ -35,7 +35,7 @@
     "language": "TypeScript",
     "platform": "github",
     "createdAt": "2022-09-13T23:33:37Z",
-    "updatedAt": "2025-06-07T17:12:35Z",
+    "updatedAt": "2025-06-23T21:21:30Z",
     "interactions": {
       "stars": 19,
       "forks": 2
@@ -78,6 +78,20 @@
     "platform": "github",
     "createdAt": "2022-04-12T08:56:34Z",
     "updatedAt": "2023-05-17T19:06:30Z",
+    "interactions": {
+      "stars": 0,
+      "forks": 0
+    }
+  },
+  {
+    "title": "material sticky header",
+    "description": "A proof of concept implementation of Android's scroll-snap settings header behavior in React TypeScript.",
+    "source": "https://github.com/BSoDium/material-sticky-header",
+    "demo": "https://material-sticky-header.vercel.app",
+    "language": "TypeScript",
+    "platform": "github",
+    "createdAt": "2025-06-14T16:55:57Z",
+    "updatedAt": "2025-06-23T21:22:06Z",
     "interactions": {
       "stars": 0,
       "forks": 0
