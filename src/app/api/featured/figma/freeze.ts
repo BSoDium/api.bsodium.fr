@@ -105,7 +105,9 @@ const loader: Loader = async () => {
         }
       });
 
-      return Array.from(uniqueFiles.values());
+      return Array.from(uniqueFiles.values()).filter(
+        (p) => p.author === userId
+      );
     }, figmaId);
 
     await page.close();
@@ -113,8 +115,8 @@ const loader: Loader = async () => {
     console.log(`Extracted ${projects.length} projects from Figma profile`);
 
     // Transform to FeaturedProject format
-    const featuredProjects: FeaturedProject[] = (projects as any[])
-      .filter((p: any) => p.title && p.source && p.author === figmaId)
+    const featuredProjects: FeaturedProject[] = projects
+      .filter((p: any) => p.title && p.source)
       .map((project: any) => ({
         title: project.title,
         source: project.source,
