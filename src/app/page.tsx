@@ -1,5 +1,6 @@
 "use client";
 
+import { Divider } from "@heroui/divider";
 import UseAnimations from "react-useanimations";
 import activity from "react-useanimations/lib/activity";
 import { useMediaQuery } from "usehooks-ts";
@@ -23,7 +24,7 @@ export default function Home() {
           style={{
             display: "flex",
             flexDirection: vertical ? "column" : "row",
-            gap: "2rem",
+            gap: "1.5rem",
             alignSelf: "center",
             alignItems: "center",
             justifyContent: "center",
@@ -34,6 +35,7 @@ export default function Home() {
             size={56}
             strokeColor="currentColor"
           />
+          <Divider orientation="vertical" style={{ height: "3.5rem" }} />
           <div
             style={{
               display: "flex",
@@ -51,7 +53,7 @@ export default function Home() {
               .
             </h1>
             <h2
-              className="text-small text-gray-500 dark:text-gray-400"
+              className="text-small font-light text-gray-500 dark:text-gray-400"
               style={{ textAlign: vertical ? "center" : "left" }}
             >
               The API is reachable, all services are running as expected.
