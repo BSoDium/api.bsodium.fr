@@ -1,12 +1,13 @@
 "use client";
 
-import { PiHeartbeatLight } from "react-icons/pi";
+import UseAnimations from "react-useanimations";
+import activity from "react-useanimations/lib/activity";
 import { useMediaQuery } from "usehooks-ts";
 
 export default function Home() {
   const vertical = useMediaQuery("(max-width: 768px)");
   return (
-    <main>
+    <main className="bg-white dark:bg-black">
       <section
         style={{
           display: "flex",
@@ -28,31 +29,33 @@ export default function Home() {
             justifyContent: "center",
           }}
         >
-          <PiHeartbeatLight
-            size="7rem"
-            style={{ animation: "heartbeat 2s infinite", flexShrink: 0 }}
+          <UseAnimations
+            animation={activity}
+            size={56}
+            strokeColor="currentColor"
           />
           <div
             style={{
               display: "flex",
               flexDirection: "column",
-              gap: ".5rem",
+              gap: ".25rem",
               maxWidth: "30rem",
             }}
           >
-            <span
-              className="text-4xl"
+            <h1
+              className="text-2xl"
               style={{ textAlign: vertical ? "center" : "left" }}
             >
-              This instance is online.
-            </span>
-            <span
-              className="text-medium text-slate-300"
+              This instance is{" "}
+              <span className="text-green-500 dark:text-green-400">online</span>
+              .
+            </h1>
+            <h2
+              className="text-small text-gray-500 dark:text-gray-400"
               style={{ textAlign: vertical ? "center" : "left" }}
             >
-              The API is reachable. Any issues encountered on the front-end are
-              likely due to Vercel being down.
-            </span>
+              The API is reachable, all services are running as expected.
+            </h2>
           </div>
         </div>
       </section>
