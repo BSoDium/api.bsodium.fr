@@ -1,5 +1,4 @@
 import details from "@/app/assets/details.json";
-import { JSDOM } from "jsdom";
 import path from "path";
 import { fileURLToPath } from "url";
 import { FeaturedProject, Loader } from "../Types";
@@ -15,96 +14,127 @@ const loader: Loader = async () => {
   const browserManager = getBrowserManager();
 
   try {
-    // Use Puppeteer to bypass bot detection
-    // Wait for the main content wrapper to load
-    const text = await browserManager.fetchText(
-      `https://www.researchgate.net/profile/${researchgateId}`,
-      ".nova-legacy-o-stack"
-    );
-    const dom = new JSDOM(text);
-    const xmlDoc = dom.window.document;
+    const page = await browserManager.newPage();
 
-    const parent = xmlDoc.getElementsByClassName(
-      "nova-legacy-o-stack nova-legacy-o-stack--gutter-xxl nova-legacy-o-stack--spacing-xl nova-legacy-o-stack--show-divider"
-    );
+    // Navigate to the user's research profile page
+    const profileUrl = `https://www.researchgate.net/profile/${researchgateId}/research`;
+    console.log(`Navigating to ${profileUrl}...`);
 
-    if (parent.length === 0) {
-      const mainWrapper = xmlDoc.getElementsByClassName("main-wrapper")[0];
-      console.warn(
-        "Unexpected response from ResearchGate. Could not find publication list."
-      );
-      if (mainWrapper) {
-        console.warn("Main wrapper found, but no publications container.");
-        // Check if we're being blocked
-        const bodyText = xmlDoc.body?.textContent || "";
-        if (
-          bodyText.includes("robot") ||
-          bodyText.includes("captcha") ||
-          bodyText.includes("verify")
-        ) {
-          console.error(
-            "ResearchGate appears to be showing a bot detection page."
-          );
-        }
-      }
+    await page.goto(profileUrl, {
+      waitUntil: "networkidle2",
+      timeout: 60000,
+    });
+
+    // Wait for dynamic content to load
+    console.log("Waiting for page content to load...");
+    await new Promise((resolve) => setTimeout(resolve, 8000));
+
+    // Check if we're being shown a security challenge
+    const pageTitle = await page.title();
+    if (pageTitle.includes("Security") || pageTitle.includes("challenge")) {
+      console.warn("ResearchGate is showing a security challenge page.");
+      console.warn("Automated access is being blocked by Cloudflare.");
+      await page.close();
       return [];
     }
 
-    const children = parent[0].getElementsByClassName(
-      "nova-legacy-o-stack__item"
+    // Extract publication data from HTML
+    const publications = await page.evaluate(() => {
+      // Find the publications container
+      const parent = document.querySelector(
+        ".nova-legacy-o-stack.nova-legacy-o-stack--gutter-xxl.nova-legacy-o-stack--spacing-xl.nova-legacy-o-stack--show-divider"
+      );
+
+      if (!parent) {
+        console.log("Could not find publications container");
+        return [];
+      }
+
+      const items = parent.querySelectorAll(".nova-legacy-o-stack__item");
+      console.log(`Found ${items.length} publication items`);
+
+      const results: any[] = [];
+
+      items.forEach((item) => {
+        try {
+          // Find the main link
+          const link = item.querySelector(".nova-legacy-e-link");
+          if (!link) {
+            console.warn("No link found in publication item, skipping...");
+            return;
+          }
+
+          const title = link.textContent?.trim() || "";
+          const source = link.getAttribute("href") || "";
+
+          // Find description
+          const descEl = item.querySelector(
+            ".nova-legacy-v-publication-item__description"
+          );
+          const description = descEl?.textContent?.trim() || "";
+
+          // Find publication date
+          const metaEl = item.querySelector(
+            ".nova-legacy-v-publication-item__meta-data-item"
+          );
+          const dateText = metaEl?.textContent?.trim() || "";
+
+          // Find publication type badge
+          const badgeEl = item.querySelector(".nova-legacy-e-badge");
+          const type = badgeEl?.textContent?.trim() || "";
+
+          if (title && source) {
+            results.push({
+              title,
+              description,
+              source,
+              dateText,
+              type,
+            });
+          }
+        } catch (e) {
+          console.warn("Error parsing publication item:", e);
+        }
+      });
+
+      return results;
+    });
+
+    await page.close();
+
+    console.log(
+      `Extracted ${publications.length} publications from ResearchGate profile`
     );
 
-    return Array.from(children)
-      .map((child) => {
-        const linkElements = child.getElementsByClassName("nova-legacy-e-link");
-        if (linkElements.length === 0) {
-          console.warn("No link found in publication item, skipping...");
-          return null;
+    // Transform to FeaturedProject format
+    const featuredProjects: FeaturedProject[] = (publications as any[])
+      .filter((p: any) => p.title && p.source && p.type !== "Presentation")
+      .map((pub: any) => {
+        // Parse the date
+        let createdAt = new Date().toISOString();
+        if (pub.dateText) {
+          try {
+            const parsedDate = new Date(pub.dateText);
+            if (!isNaN(parsedDate.getTime())) {
+              createdAt = parsedDate.toISOString();
+            }
+          } catch (e) {
+            // Use default date if parsing fails
+          }
         }
 
-        const link = linkElements[0];
-        const title = link.textContent || "";
-        const source = link.getAttribute("href") || "";
-
-        const descriptionElements = child.getElementsByClassName(
-          "nova-legacy-v-publication-item__description"
-        );
-        const description =
-          descriptionElements.length > 0
-            ? descriptionElements[0].textContent || ""
-            : "";
-
-        const metaDataElements = child.getElementsByClassName(
-          "nova-legacy-v-publication-item__meta-data-item"
-        );
-        const createdAt =
-          metaDataElements.length > 0
-            ? new Date(metaDataElements[0].textContent || "").toISOString()
-            : new Date().toISOString();
-
-        const badgeElements = child.getElementsByClassName(
-          "nova-legacy-e-badge"
-        );
-        const type =
-          badgeElements.length > 0 ? badgeElements[0].textContent || "" : "";
-
         return {
-          title,
-          description,
-          source,
+          title: pub.title,
+          source: pub.source.startsWith("http")
+            ? pub.source
+            : `https://www.researchgate.net${pub.source}`,
+          description: pub.description || "",
           createdAt,
-          type,
-          platform: "researchgate",
-        } as FeaturedProject & { type?: string };
-      })
-      .filter(
-        (item): item is FeaturedProject & { type?: string } => item !== null
-      )
-      .filter((item) => item.type !== "Presentation")
-      .map((item) => {
-        const { type, ...project } = item;
-        return project;
+          platform: "researchgate" as const,
+        };
       });
+
+    return featuredProjects;
   } finally {
     await closeBrowser();
   }
