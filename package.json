@@ -2,6 +2,7 @@
   "name": "api.bsodium.fr",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
@@ -20,6 +21,9 @@
     "next": "^15.5.6",
     "next-connect": "^1.0.0",
     "next-themes": "^0.4.6",
+    "puppeteer": "^24.25.0",
+    "puppeteer-extra": "^3.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-useanimations": "^2.10.0",
@@ -28,6 +32,7 @@
   },
   "devDependencies": {
     "@types/node": "^24.9.1",
+    "@types/puppeteer": "^7.0.4",
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "autoprefixer": "^10.4.21",

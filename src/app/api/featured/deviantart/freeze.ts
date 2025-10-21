@@ -1,8 +1,12 @@
 import details from "@/app/assets/details.json";
 import { JSDOM } from "jsdom";
 import path from "path";
+import { fileURLToPath } from "url";
 import { FeaturedProject, Loader } from "../Types";
 import { freeze } from "../utils";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const deviantartId = details.deviantart.id;
 
