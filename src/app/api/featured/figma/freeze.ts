@@ -27,7 +27,7 @@ const loader: Loader = async () => {
 
     // Wait for dynamic content to load
     console.log("Waiting for page content to load...");
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     // Extract project data from HTML
     const projects = await page.evaluate((userId) => {
@@ -50,9 +50,7 @@ const loader: Loader = async () => {
         const title = link.textContent?.trim() || "";
 
         // Try to find associated metadata by traversing up the DOM
-        let container = link.closest(
-          '[class*="card"], [class*="item"], article, div'
-        );
+        let container = link.closest('[data-testid="community-resource-tile"]');
 
         // Look for the author
         let author = "figma";
@@ -72,23 +70,15 @@ const loader: Loader = async () => {
           }
         }
 
-        // Look for description
-        let description = "";
-        if (container) {
-          const descEl = container.querySelector('p, [class*="description"]');
-          if (descEl && descEl !== link) {
-            description = descEl.textContent?.trim() || "";
-          }
-        }
-
         // Look for likes/interactions
         let likes = 0;
         if (container) {
           const likeEl = container.querySelector(
-            '[class*="like"], [class*="heart"]'
+            'div[class^="tile_meta--actionDefaultLike"]'
           );
           if (likeEl) {
-            const likeText = likeEl.textContent?.trim() || "0";
+            // We don't enter this block for some reason
+            const likeText = likeEl.textContent?.trim();
             likes = parseInt(likeText.replace(/\D/g, "")) || 0;
           }
         }
@@ -96,7 +86,6 @@ const loader: Loader = async () => {
         if (title && href.includes("/community/file/")) {
           uniqueFiles.set(href, {
             title,
-            description,
             thumbnail,
             source: href,
             author,
