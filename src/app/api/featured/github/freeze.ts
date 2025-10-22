@@ -1,8 +1,12 @@
 import details from "@/app/assets/details.json";
 import path from "path";
+import { fileURLToPath } from "url";
 import { Loader } from "../Types";
 import { freeze } from "../utils";
 import { Repository } from "./Types";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const githubId = details.github.id;
 
