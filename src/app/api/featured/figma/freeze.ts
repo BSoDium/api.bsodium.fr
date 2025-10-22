@@ -1,51 +1,124 @@
 import details from "@/app/assets/details.json";
 import path from "path";
+import { fileURLToPath } from "url";
 import { FeaturedProject, Loader } from "../Types";
+import { closeBrowser, getBrowserManager } from "../browser";
 import { freeze } from "../utils";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const figmaId = details.figma.id;
 
 const loader: Loader = async () => {
-  const response = await fetch(
-    `https://www.figma.com/api/hub_files/profile/${figmaId}`,
-    {
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-      },
-    }
-  ).then((response) => response.json());
+  const browserManager = getBrowserManager();
 
-  const projects: FeaturedProject[] = response?.meta.map((project: any) => {
-    const latest = Object.values(project.versions).reduce((a: any, b: any) =>
-      new Date(a.created_at).getTime() > new Date(b.created_at).getTime()
-        ? a
-        : b
-    ) as any;
+  try {
+    const page = await browserManager.newPage();
 
-    const title = latest.name;
-    const description = latest.description;
-    const thumbnail = project.thumbnail_url;
-    const source = `https://www.figma.com/community/file/${project.id}`;
-    const createdAt = project.created_at;
-    const updatedAt = latest.created_at;
-    const interactions = {
-      likes: project.like_count,
-    };
+    // Navigate to the user's profile page
+    const profileUrl = `https://www.figma.com/@${figmaId}`;
+    console.log(`Navigating to ${profileUrl}...`);
 
-    return {
-      title,
-      source,
-      description,
-      createdAt,
-      updatedAt,
-      thumbnail,
-      interactions,
-      platform: "figma",
-    };
-  });
+    await page.goto(profileUrl, {
+      waitUntil: "networkidle2",
+      timeout: 60000,
+    });
 
-  return projects;
+    // Wait for dynamic content to load
+    console.log("Waiting for page content to load...");
+    await new Promise((resolve) => setTimeout(resolve, 3000));
+
+    // Extract project data from HTML
+    const projects = await page.evaluate((userId) => {
+      // Find all links that point to community files
+      const allLinks = Array.from(document.querySelectorAll("a"));
+      const fileLinks = allLinks.filter(
+        (a) => a.href.includes("/community/file/") || a.href.includes("/file/")
+      );
+
+      console.log(`Found ${fileLinks.length} file links on the page`);
+
+      // Deduplicate by href and extract data
+      const uniqueFiles = new Map<string, any>();
+
+      fileLinks.forEach((link) => {
+        const href = link.href;
+        if (uniqueFiles.has(href)) return;
+
+        // Get the link's text content as title
+        const title = link.textContent?.trim() || "";
+
+        // Try to find associated metadata by traversing up the DOM
+        let container = link.closest('[data-testid="community-resource-tile"]');
+
+        // Look for the author
+        let author = "figma";
+        if (container) {
+          const authorEl = container.querySelector(`[href="/@${userId}"]`);
+          if (authorEl) {
+            author = userId;
+          }
+        }
+
+        // Look for thumbnail in the container
+        let thumbnail = "";
+        if (container) {
+          const img = container.querySelector("img");
+          if (img) {
+            thumbnail = img.src || img.getAttribute("src") || "";
+          }
+        }
+
+        // Look for likes/interactions
+        let likes = 0;
+        if (container) {
+          const likeEl = container.querySelector(
+            'div[class^="tile_meta--actionDefaultLike"]'
+          );
+          if (likeEl) {
+            // We don't enter this block for some reason
+            const likeText = likeEl.textContent?.trim();
+            likes = parseInt(likeText.replace(/\D/g, "")) || 0;
+          }
+        }
+
+        if (title && href.includes("/community/file/")) {
+          uniqueFiles.set(href, {
+            title,
+            thumbnail,
+            source: href,
+            author,
+            interactions: { likes },
+          });
+        }
+      });
+
+      return Array.from(uniqueFiles.values()).filter(
+        (p) => p.author === userId
+      );
+    }, figmaId);
+
+    await page.close();
+
+    console.log(`Extracted ${projects.length} projects from Figma profile`);
+
+    // Transform to FeaturedProject format
+    const featuredProjects: FeaturedProject[] = projects
+      .filter((p: any) => p.title && p.source)
+      .map((project: any) => ({
+        title: project.title,
+        source: project.source,
+        description: project.description || "",
+        thumbnail: project.thumbnail || "",
+        interactions: project.interactions,
+        platform: "figma" as const,
+      }));
+
+    return featuredProjects;
+  } finally {
+    await closeBrowser();
+  }
 };
 
 const filePath = path.join(__dirname, "response.json");
