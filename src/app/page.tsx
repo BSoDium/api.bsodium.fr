@@ -35,7 +35,9 @@ export default function Home() {
             size={56}
             strokeColor="currentColor"
           />
-          <Divider orientation="vertical" style={{ height: "3.5rem" }} />
+          {!vertical && (
+            <Divider orientation="vertical" style={{ height: "3.5rem" }} />
+          )}
           <div
             style={{
               display: "flex",
