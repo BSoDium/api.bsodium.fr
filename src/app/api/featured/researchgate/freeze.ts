@@ -27,7 +27,7 @@ const loader: Loader = async () => {
 
     // Wait for dynamic content to load
     console.log("Waiting for page content to load...");
-    await new Promise((resolve) => setTimeout(resolve, 8000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
 
     // Check if we're being shown a security challenge
     const pageTitle = await page.title();
