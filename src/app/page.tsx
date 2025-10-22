@@ -1,7 +1,6 @@
 "use client";
 
 import { Divider } from "@heroui/divider";
-import { motion } from "motion/react";
 import UseAnimations from "react-useanimations";
 import activity from "react-useanimations/lib/activity";
 import { useMediaQuery } from "usehooks-ts";
@@ -31,17 +30,11 @@ export default function Home() {
             justifyContent: "center",
           }}
         >
-          <motion.div
-            layoutId="status-icon"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-          >
-            <UseAnimations
-              animation={activity}
-              size={56}
-              strokeColor="currentColor"
-            />
-          </motion.div>
+          <UseAnimations
+            animation={activity}
+            size={56}
+            strokeColor="currentColor"
+          />
           {!vertical && (
             <Divider orientation="vertical" style={{ height: "3.5rem" }} />
           )}
@@ -53,22 +46,20 @@ export default function Home() {
               maxWidth: "30rem",
             }}
           >
-            <motion.h1
-              layoutId="status-heading"
+            <h1
               className="text-2xl"
               style={{ textAlign: vertical ? "center" : "left" }}
             >
               This instance is{" "}
               <span className="text-green-500 dark:text-green-400">online</span>
               .
-            </motion.h1>
-            <motion.h2
-              layoutId="status-subheading"
+            </h1>
+            <h2
               className="text-small font-light text-gray-500 dark:text-gray-400"
               style={{ textAlign: vertical ? "center" : "left" }}
             >
               The API is reachable, all services are running as expected.
-            </motion.h2>
+            </h2>
           </div>
         </div>
       </section>
