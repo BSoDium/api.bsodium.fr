@@ -3,10 +3,8 @@
 import { Divider } from "@heroui/divider";
 import UseAnimations from "react-useanimations";
 import activity from "react-useanimations/lib/activity";
-import { useMediaQuery } from "usehooks-ts";
 
 export default function Home() {
-  const vertical = useMediaQuery("(max-width: 768px)");
   return (
     <main className="bg-white dark:bg-black">
       <section
@@ -21,9 +19,10 @@ export default function Home() {
         }}
       >
         <div
+          className="container-responsive"
           style={{
             display: "flex",
-            flexDirection: vertical ? "column" : "row",
+            flexDirection: "row",
             gap: "1.5rem",
             alignSelf: "center",
             alignItems: "center",
@@ -35,9 +34,9 @@ export default function Home() {
             size={56}
             strokeColor="currentColor"
           />
-          {!vertical && (
+          <div className="divider-wrapper">
             <Divider orientation="vertical" style={{ height: "3.5rem" }} />
-          )}
+          </div>
           <div
             style={{
               display: "flex",
@@ -46,23 +45,30 @@ export default function Home() {
               maxWidth: "30rem",
             }}
           >
-            <h1
-              className="text-2xl"
-              style={{ textAlign: vertical ? "center" : "left" }}
-            >
+            <h1 className="text-2xl text-responsive">
               This instance is{" "}
               <span className="text-green-500 dark:text-green-400">online</span>
               .
             </h1>
-            <h2
-              className="text-small font-light text-gray-500 dark:text-gray-400"
-              style={{ textAlign: vertical ? "center" : "left" }}
-            >
+            <h2 className="text-small font-light text-gray-500 dark:text-gray-400 text-responsive">
               The API is reachable, all services are running as expected.
             </h2>
           </div>
         </div>
       </section>
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .container-responsive {
+            flex-direction: column !important;
+          }
+          .divider-wrapper {
+            display: none !important;
+          }
+          .text-responsive {
+            text-align: center !important;
+          }
+        }
+      `}</style>
     </main>
   );
 }
