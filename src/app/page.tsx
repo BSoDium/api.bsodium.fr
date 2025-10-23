@@ -62,10 +62,10 @@ export default function Home() {
             flex-direction: column !important;
           }
           .divider-wrapper {
-            display: none !important;
+            display: none;
           }
           .text-responsive {
-            text-align: center !important;
+            text-align: center;
           }
         }
       `}</style>
