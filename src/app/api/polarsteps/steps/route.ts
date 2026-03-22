@@ -7,7 +7,10 @@ export const revalidate = 86400; // 24 hours ISR
 
 const DEFAULT_MAX_PER_COUNTRY = 3;
 
-function transformStep(step: PolarstepsStep, tripName: string): StepResponse & { tripName: string } {
+function transformStep(
+  step: PolarstepsStep,
+  tripName: string,
+): StepResponse & { tripName: string } {
   return {
     id: step.id,
     name: step.name,
@@ -63,7 +66,9 @@ export async function GET(request: Request) {
 
       for (const step of filtered) {
         if (!step.location) continue; // skip steps without a location
-        allSteps.push(transformStep(step, trip.name?.trim() ?? "Untitled Trip"));
+        allSteps.push(
+          transformStep(step, trip.name?.trim() ?? "Untitled Trip"),
+        );
       }
     }
 
