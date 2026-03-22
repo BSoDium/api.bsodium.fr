@@ -1,12 +1,7 @@
 import details from "@/app/assets/details.json";
-import path from "path";
-import { fileURLToPath } from "url";
 import { FeaturedProject, Loader } from "../Types";
 import { closeBrowser, getBrowserManager } from "../browser";
-import { freeze } from "../utils";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { setCachedProjects } from "../cache";
 
 const figmaId = details.figma.id;
 
@@ -34,7 +29,7 @@ const loader: Loader = async () => {
       // Find all links that point to community files
       const allLinks = Array.from(document.querySelectorAll("a"));
       const fileLinks = allLinks.filter(
-        (a) => a.href.includes("/community/file/") || a.href.includes("/file/")
+        (a) => a.href.includes("/community/file/") || a.href.includes("/file/"),
       );
 
       console.log(`Found ${fileLinks.length} file links on the page`);
@@ -74,7 +69,7 @@ const loader: Loader = async () => {
         let likes = 0;
         if (container) {
           const likeEl = container.querySelector(
-            'div[class^="tile_meta--actionDefaultLike"]'
+            'div[class^="tile_meta--actionDefaultLike"]',
           );
           if (likeEl) {
             // We don't enter this block for some reason
@@ -95,7 +90,7 @@ const loader: Loader = async () => {
       });
 
       return Array.from(uniqueFiles.values()).filter(
-        (p) => p.author === userId
+        (p) => p.author === userId,
       );
     }, figmaId);
 
@@ -121,5 +116,7 @@ const loader: Loader = async () => {
   }
 };
 
-const filePath = path.join(__dirname, "response.json");
-loader().then((projects) => freeze(projects, filePath, "Figma"));
+loader().then(async (projects) => {
+  await setCachedProjects("figma", projects);
+  console.log(`Cached ${projects.length} Figma projects to KV`);
+});

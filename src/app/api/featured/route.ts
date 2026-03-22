@@ -11,12 +11,10 @@ export async function GET() {
   const deviantartResponse = await deviantart();
   const figmaResponse = await figma();
 
-  return new Response(
-    JSON.stringify([
-      ...(await githubResponse.json()),
-      ...(await researchgateResponse.json()),
-      ...(await deviantartResponse.json()),
-      ...(await figmaResponse.json()),
-    ])
-  );
+  return Response.json([
+    ...(await githubResponse.json()),
+    ...(await researchgateResponse.json()),
+    ...(await deviantartResponse.json()),
+    ...(await figmaResponse.json()),
+  ]);
 }
