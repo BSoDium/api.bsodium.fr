@@ -1,4 +1,4 @@
-import { put, list, del } from "@vercel/blob";
+import { del, list, put } from "@vercel/blob";
 import { FeaturedProjects } from "./Types";
 
 const BLOB_PREFIX = "featured";
