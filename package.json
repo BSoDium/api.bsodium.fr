@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "freeze": "tsx scripts/freeze.ts"
+    "freeze": "dotenv -- tsx scripts/freeze.ts"
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
@@ -16,6 +16,7 @@
     "@react-aria/visually-hidden": "^3.8.28",
     "@tailwindcss/postcss": "^4.1.15",
     "@types/jsdom": "^27.0.0",
+    "@vercel/blob": "^2.3.1",
     "jsdom": "^27.0.1",
     "motion": "^12.23.24",
     "next": "^15.5.6",

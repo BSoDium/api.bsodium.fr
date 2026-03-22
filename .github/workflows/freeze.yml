@@ -1,7 +1,6 @@
 name: Freeze
 env:
-  APP_ID: ${{ vars.BSODIUM_APP_ID }}
-  APP_PRIVATE_KEY: ${{ secrets.BSODIUM_APP_PRIVATE_KEY }}
+  BLOB_READ_WRITE_TOKEN: ${{ secrets.BLOB_READ_WRITE_TOKEN }}
 
 on:
   schedule:
@@ -12,16 +11,7 @@ jobs:
   API:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/create-github-app-token@v1
-        id: app-token
-        with:
-          app-id: ${{ env.APP_ID }}
-          private-key: ${{ env.APP_PRIVATE_KEY }}
-
       - uses: actions/checkout@v4
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          ref: ${{ github.head_ref }}
 
       - name: Enable Corepack
         run: corepack enable
@@ -31,9 +21,3 @@ jobs:
 
       - name: Run freeze script
         run: yarn freeze
-
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore: freeze api responses"
-          commit_user_name: "BSoDium"
-          commit_user_email: contact@bsodium.fr
