@@ -1,12 +1,7 @@
 import details from "@/app/assets/details.json";
-import path from "path";
-import { fileURLToPath } from "url";
 import { FeaturedProject, Loader } from "../Types";
 import { closeBrowser, getBrowserManager } from "../browser";
-import { freeze } from "../utils";
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { setCachedProjects } from "../cache";
 
 const researchgateId = details.researchgate.id;
 
@@ -42,7 +37,7 @@ const loader: Loader = async () => {
     const publications = await page.evaluate(() => {
       // Find the publications container
       const parent = document.querySelector(
-        ".nova-legacy-o-stack.nova-legacy-o-stack--gutter-xxl.nova-legacy-o-stack--spacing-xl.nova-legacy-o-stack--show-divider"
+        ".nova-legacy-o-stack.nova-legacy-o-stack--gutter-xxl.nova-legacy-o-stack--spacing-xl.nova-legacy-o-stack--show-divider",
       );
 
       if (!parent) {
@@ -69,13 +64,13 @@ const loader: Loader = async () => {
 
           // Find description
           const descEl = item.querySelector(
-            ".nova-legacy-v-publication-item__description"
+            ".nova-legacy-v-publication-item__description",
           );
           const description = descEl?.textContent?.trim() || "";
 
           // Find publication date
           const metaEl = item.querySelector(
-            ".nova-legacy-v-publication-item__meta-data-item"
+            ".nova-legacy-v-publication-item__meta-data-item",
           );
           const dateText = metaEl?.textContent?.trim() || "";
 
@@ -103,7 +98,7 @@ const loader: Loader = async () => {
     await page.close();
 
     console.log(
-      `Extracted ${publications.length} publications from ResearchGate profile`
+      `Extracted ${publications.length} publications from ResearchGate profile`,
     );
 
     // Transform to FeaturedProject format
@@ -140,5 +135,7 @@ const loader: Loader = async () => {
   }
 };
 
-const filePath = path.join(__dirname, "response.json");
-loader().then((projects) => freeze(projects, filePath, "ResearchGate"));
+loader().then(async (projects) => {
+  await setCachedProjects("researchgate", projects);
+  console.log(`Cached ${projects.length} ResearchGate projects to KV`);
+});
