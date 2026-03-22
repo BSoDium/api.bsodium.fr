@@ -3,8 +3,8 @@ import { exec } from "child_process";
 // Only Puppeteer-based sources still need freeze scripts.
 // API-based sources (GitHub, DeviantArt) now use ISR directly.
 const freezeScripts = [
-  "./src/app/api/featured/figma/freeze.ts",
-  "./src/app/api/featured/researchgate/freeze.ts",
+  './src/app/featured/figma/freeze.ts',
+  './src/app/featured/researchgate/freeze.ts',
 ];
 
 function processFile(filePath: string) {
