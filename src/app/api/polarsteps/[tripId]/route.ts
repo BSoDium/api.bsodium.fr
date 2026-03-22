@@ -5,14 +5,21 @@ import { StepResponse, TripDetailResponse } from "../Types";
 export const revalidate = 86400; // 24 hours ISR
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ tripId: string }> },
 ) {
   try {
     const { tripId } = await params;
+    const { searchParams } = new URL(request.url);
+    const namedOnly = searchParams.get("namedOnly") !== "false";
     const trip = await getTrip(tripId);
 
-    const steps: StepResponse[] = (trip.all_steps ?? []).map((step) => ({
+    const allSteps = trip.all_steps ?? [];
+    const filteredSteps = namedOnly
+      ? allSteps.filter((step) => "name" in step && "description" in step)
+      : allSteps;
+
+    const steps: StepResponse[] = filteredSteps.map((step) => ({
       id: step.id,
       name: step.name,
       description: step.description,
