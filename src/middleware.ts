@@ -44,5 +44,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: "/(featured|polarsteps)/:path*",
+  matcher: [
+    "/(featured|polarsteps)/:path*",
+    // TODO: remove once all consumers have migrated away from /api/* routes
+    "/api/(featured|polarsteps)/:path*",
+  ],
 };
