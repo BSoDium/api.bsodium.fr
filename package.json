@@ -7,8 +7,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "freeze": "dotenv -- tsx scripts/freeze.ts"
+    "lint": "next lint"
   },
   "dependencies": {
     "@heroui/react": "^2.8.5",
@@ -31,12 +30,10 @@
     "@types/react": "^19.2.2",
     "@types/react-dom": "^19.2.2",
     "autoprefixer": "^10.4.21",
-    "dotenv-cli": "^10.0.0",
     "eslint": "^9.38.0",
     "eslint-config-next": "^15.5.6",
     "postcss": "^8.5.6",
     "sass": "^1.93.2",
-    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   },
   "packageManager": "yarn@4.3.1"
