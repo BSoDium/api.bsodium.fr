@@ -1,5 +1,4 @@
-import type { EdgeResponse } from "./Types";
-import { PolarstepsStep } from "./Types";
+import type { EdgeResponse, PolarstepsStep } from "./Types";
 
 const EARTH_RADIUS_KM = 6371;
 
