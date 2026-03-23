@@ -1,11 +1,20 @@
 export const platforms = [
   "github",
   "artstation",
-  /** @deprecated Figma integration has been removed. Kept for backwards compatibility. */
+  /**
+   * @deprecated Figma integration has been removed. Kept for backwards compatibility.
+   * @todo Remove this once the frontend no longer depends on it.
+   */
   "figma",
-  /** @deprecated DeviantArt integration replaced by ArtStation. Kept for backwards compatibility. */
+  /**
+   * @deprecated DeviantArt integration replaced by ArtStation. Kept for backwards compatibility.
+   * @todo Remove this once the frontend no longer depends on it.
+   */
   "deviantart",
-  /** @deprecated ResearchGate integration has been removed. Kept for backwards compatibility. */
+  /**
+   * @deprecated ResearchGate integration has been removed. Kept for backwards compatibility.
+   * @todo Remove this once the frontend no longer depends on it.
+   */
   "researchgate",
 ] as const;
 export type Platform = (typeof platforms)[number];
