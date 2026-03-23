@@ -1,4 +1,4 @@
-# api.bsodium.fr
+# catalyst-api
 
 This repository contains the source code of the API for my eportfolio/landing page, hosted at [bsodium.fr](https://bsodium.fr) on Vercel.
 

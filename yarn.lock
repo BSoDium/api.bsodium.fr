@@ -4435,9 +4435,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"api.bsodium.fr@workspace:.":
+"catalyst-api@workspace:.":
   version: 0.0.0-use.local
-  resolution: "api.bsodium.fr@workspace:."
+  resolution: "catalyst-api@workspace:."
   dependencies:
     "@heroui/react": "npm:^2.8.5"
     "@react-aria/ssr": "npm:^3.9.10"
