@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // jsdom has ESM-only transitive deps that break when bundled by Next.js.
+  // Exclude it from bundling so Node.js resolves it natively at runtime.
+  serverExternalPackages: ["jsdom"],
+
   // TODO: remove once all consumers have migrated away from /api/* routes
   async redirects() {
     return [
