@@ -1,7 +1,8 @@
 import details from "@/app/assets/details.json";
 import { NextResponse } from "next/server";
 import { getTrip, getUserByUsername } from "../client";
-import { PolarstepsStep, StepResponse } from "../Types";
+import { buildEdges } from "../geo";
+import { EdgeResponse, PolarstepsStep, StepResponse } from "../Types";
 
 export const revalidate = 86400; // 24 hours ISR
 
@@ -56,33 +57,62 @@ export async function GET(request: Request) {
       trips.map((t) => getTrip(String(t.id))),
     );
 
-    // Collect all named steps across all trips
-    const allSteps: (StepResponse & { tripName: string })[] = [];
+    // Gather and filter all steps first
+    let allSteps: (PolarstepsStep & { tripId: number; tripName: string })[] =
+      [];
+
     for (const trip of tripDetails) {
       const steps = trip.all_steps ?? [];
+      const tripName = trip.name?.trim() ?? "Untitled Trip";
+
       const filtered = namedOnly
         ? steps.filter((s) => "name" in s && "description" in s)
         : steps;
 
       for (const step of filtered) {
         if (!step.location) continue; // skip steps without a location
-        allSteps.push(
-          transformStep(step, trip.name?.trim() ?? "Untitled Trip"),
-        );
+        allSteps.push({ ...step, tripId: trip.id, tripName });
       }
     }
 
     // Cap steps per country code
     const countPerCountry = new Map<string, number>();
-    const capped = allSteps.filter((step) => {
-      const code = step.location?.countryCode ?? "unknown";
+    const cappedSteps = allSteps.filter((step) => {
+      const code = step.location?.country_code ?? "unknown";
       const count = countPerCountry.get(code) ?? 0;
       if (count >= maxPerCountry) return false;
       countPerCountry.set(code, count + 1);
       return true;
     });
 
-    return NextResponse.json(capped);
+    // Build edges from the capped step set (grouped by trip)
+    const allEdges: (EdgeResponse & { tripId: number; tripName: string })[] =
+      [];
+    const stepsByTrip = new Map<
+      number,
+      (PolarstepsStep & { tripId: number; tripName: string })[]
+    >();
+
+    for (const step of cappedSteps) {
+      const ts = stepsByTrip.get(step.tripId) ?? [];
+      ts.push(step);
+      stepsByTrip.set(step.tripId, ts);
+    }
+
+    for (const [tripId, steps] of stepsByTrip.entries()) {
+      const tripName = steps[0]?.tripName ?? "Untitled Trip";
+      const edges = buildEdges(steps);
+      for (const edge of edges) {
+        allEdges.push({ ...edge, tripId, tripName });
+      }
+    }
+
+    // Format steps for response
+    const formattedSteps = cappedSteps.map((step) =>
+      transformStep(step, step.tripName),
+    );
+
+    return NextResponse.json({ steps: formattedSteps, edges: allEdges });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     const status = message.includes("401") ? 401 : 500;

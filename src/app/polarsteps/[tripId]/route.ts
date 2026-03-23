@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getTrip } from "../client";
+import { buildEdges } from "../geo";
 import { StepResponse, TripDetailResponse } from "../Types";
 
 export const revalidate = 86400; // 24 hours ISR
@@ -61,6 +62,7 @@ export async function GET(
         trip.cover_photo?.large_thumbnail_path ?? trip.cover_photo?.path,
       countryCodes: trip.country_codes,
       steps,
+      edges: buildEdges(allSteps),
       likes: trip.likes,
       views: trip.views,
     };
