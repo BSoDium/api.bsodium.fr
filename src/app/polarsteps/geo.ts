@@ -56,7 +56,15 @@ export function buildEdges(steps: PolarstepsStep[]): EdgeResponse[] {
         location: NonNullable<PolarstepsStep["location"]>;
       } => s.location != null,
     )
-    .sort((a, b) => (a.start_time ?? 0) - (b.start_time ?? 0));
+    .sort((a, b) => {
+      const timeA = a.start_time ?? Number.POSITIVE_INFINITY;
+      const timeB = b.start_time ?? Number.POSITIVE_INFINITY;
+      if (timeA === timeB) {
+        // Fallback to stable secondary sort by ID
+        return a.id > b.id ? 1 : a.id < b.id ? -1 : 0;
+      }
+      return timeA - timeB;
+    });
 
   const edges: EdgeResponse[] = [];
 
