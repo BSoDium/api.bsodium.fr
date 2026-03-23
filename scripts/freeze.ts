@@ -1,11 +1,12 @@
 import { exec } from "child_process";
 
-// Only Puppeteer-based sources still need freeze scripts.
-// API-based sources (GitHub, DeviantArt) now use ISR directly.
-const freezeScripts = [
-  "./src/app/featured/figma/freeze.ts",
-  "./src/app/featured/researchgate/freeze.ts",
-];
+// All Puppeteer-based freeze scripts have been removed.
+// DeviantArt → replaced by ArtStation (public JSON API, uses ISR directly)
+// Figma → removed entirely
+// ResearchGate → returns empty array, no scraping needed
+//
+// This script is kept for future use if new freeze-based sources are added.
+const freezeScripts: string[] = [];
 
 function processFile(filePath: string) {
   console.log(`Spawning process for file: ${filePath}`);
@@ -25,6 +26,10 @@ function processFile(filePath: string) {
   });
 }
 
-for (const script of freezeScripts) {
-  processFile(script);
+if (freezeScripts.length === 0) {
+  console.log("No freeze scripts to run.");
+} else {
+  for (const script of freezeScripts) {
+    processFile(script);
+  }
 }
