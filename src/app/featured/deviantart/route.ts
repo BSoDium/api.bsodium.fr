@@ -1,5 +1,5 @@
 import details from "@/app/assets/details.json";
-import { JSDOM } from "jsdom";
+import * as cheerio from "cheerio";
 import { FeaturedProject, FeaturedProjects } from "../Types";
 
 export const revalidate = 86400; // 24 hours ISR
@@ -11,46 +11,41 @@ export async function GET() {
     `https://backend.deviantart.com/rss.xml?q=gallery:${deviantartId}`,
     { next: { revalidate: 86400 } },
   ).then((r) => r.text());
-  const apiDom = new JSDOM(apiText);
-  const apiXmlDoc = apiDom.window.document;
+  const api$ = cheerio.load(apiText, { xml: true });
 
   const galleryText = await fetch(
     `https://www.deviantart.com/${deviantartId}/gallery`,
     { next: { revalidate: 86400 } },
   ).then((r) => r.text());
-  const galleryDom = new JSDOM(galleryText);
-  const galleryXmlDoc = galleryDom.window.document;
+  const gallery$ = cheerio.load(galleryText);
 
-  const apiItems = apiXmlDoc.getElementsByTagName("item");
-  const projects: FeaturedProject[] = Array.from(apiItems).map((item) => {
-    const title = item.getElementsByTagName("title")[0].textContent || "";
-    const description =
-      item.getElementsByTagName("media:description")[0].textContent || "";
-    const source = item.getElementsByTagName("guid")[0].textContent || "";
-    const createdAt = item.getElementsByTagName("pubDate")[0].textContent || "";
-    const thumbnails = item.getElementsByTagName("media:thumbnail");
-    const thumbnail =
-      thumbnails[thumbnails.length - 1].getAttribute("url") || "";
+  const projects: FeaturedProject[] = api$("item")
+    .toArray()
+    .map((el) => {
+      const item = api$(el);
+      const title = item.find("title").first().text();
+      const description = item.find("media\\:description").first().text();
+      const source = item.find("guid").first().text();
+      const createdAt = item.find("pubDate").first().text();
+      const thumbnail = item.find("media\\:thumbnail").last().attr("url") || "";
 
-    return {
-      title,
-      source,
-      description,
-      createdAt,
-      thumbnail,
-      platform: "deviantart" as const,
-    };
-  });
+      return {
+        title,
+        source,
+        description,
+        createdAt,
+        thumbnail,
+        platform: "deviantart" as const,
+      };
+    });
 
-  const galleryRows = galleryXmlDoc.querySelectorAll(
-    'div[data-testid="content_row"]',
-  );
-  const galleryProjects = Array.from(galleryRows || [])
-    .map((row) => Array.from(row.children))
-    .flat()
-    .map((item) => {
-      const title = item.getElementsByTagName("h2")[0].textContent || "";
-      const likes = item.getElementsByTagName("button")[0].textContent || "";
+  const galleryProjects = gallery$('div[data-testid="content_row"]')
+    .children()
+    .toArray()
+    .map((el) => {
+      const item = gallery$(el);
+      const title = item.find("h2").first().text();
+      const likes = item.find("button").first().text();
 
       return {
         title,
