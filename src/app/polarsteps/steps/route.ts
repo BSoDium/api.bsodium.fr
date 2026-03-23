@@ -1,7 +1,8 @@
 import details from "@/app/assets/details.json";
 import { NextResponse } from "next/server";
 import { getTrip, getUserByUsername } from "../client";
-import { PolarstepsStep, StepResponse } from "../Types";
+import { buildEdges } from "../geo";
+import { EdgeResponse, PolarstepsStep, StepResponse } from "../Types";
 
 export const revalidate = 86400; // 24 hours ISR
 
@@ -56,19 +57,27 @@ export async function GET(request: Request) {
       trips.map((t) => getTrip(String(t.id))),
     );
 
-    // Collect all named steps across all trips
+    // Collect all named steps across all trips, and build edges per trip
     const allSteps: (StepResponse & { tripName: string })[] = [];
+    const allEdges: (EdgeResponse & { tripId: number; tripName: string })[] =
+      [];
     for (const trip of tripDetails) {
       const steps = trip.all_steps ?? [];
+      const tripName = trip.name?.trim() ?? "Untitled Trip";
+
+      // Build edges from ALL located steps (before name filtering) so routes stay complete
+      const edges = buildEdges(steps);
+      for (const edge of edges) {
+        allEdges.push({ ...edge, tripId: trip.id, tripName });
+      }
+
       const filtered = namedOnly
         ? steps.filter((s) => "name" in s && "description" in s)
         : steps;
 
       for (const step of filtered) {
         if (!step.location) continue; // skip steps without a location
-        allSteps.push(
-          transformStep(step, trip.name?.trim() ?? "Untitled Trip"),
-        );
+        allSteps.push(transformStep(step, tripName));
       }
     }
 
@@ -82,7 +91,7 @@ export async function GET(request: Request) {
       return true;
     });
 
-    return NextResponse.json(capped);
+    return NextResponse.json({ steps: capped, edges: allEdges });
   } catch (error) {
     const message = error instanceof Error ? error.message : "Unknown error";
     const status = message.includes("401") ? 401 : 500;

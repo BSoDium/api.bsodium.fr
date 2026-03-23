@@ -106,10 +106,21 @@ export interface StepResponse {
 }
 
 /**
+ * An edge connecting two consecutive steps within a trip
+ */
+export interface EdgeResponse {
+  from: { stepId: number; lat: number; lon: number };
+  to: { stepId: number; lat: number; lon: number };
+  type: "flight" | "ground";
+  distanceKm: number;
+}
+
+/**
  * Full trip detail for the public API response
  */
 export interface TripDetailResponse extends TripSummaryResponse {
   steps: StepResponse[];
+  edges: EdgeResponse[];
   likes?: number;
   views?: number;
 }
